@@ -1,0 +1,412 @@
+
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+public class Ryu extends Sprite implements GameConstant,PlayerStates {
+	
+	BufferedImage walk[]=new BufferedImage[6];
+	BufferedImage jump[]=new BufferedImage[7];
+	BufferedImage leftWalk[]=new BufferedImage[6];
+	BufferedImage rightWalk[]=new BufferedImage[6];
+	BufferedImage advanceJump[]=new BufferedImage[8];
+	BufferedImage block[]=new BufferedImage[2];
+	BufferedImage punch[]=new BufferedImage[5];
+    BufferedImage lowKick[]=new BufferedImage[6];
+    BufferedImage doubleKick[]=new BufferedImage[6];
+    BufferedImage tatsumaki[]=new BufferedImage[9];
+    
+    
+	private int speed;
+	private int state;
+	private int force;
+	private boolean isJumped;
+	
+	
+	public boolean isJumped() {
+		return isJumped;
+	}
+
+	public void setJumped(boolean isJumped) {
+		this.isJumped = isJumped;
+	}
+
+	public int getForce() {
+		return force;
+	}
+
+	public void setForce(int force) {
+		this.force = force;
+	}
+
+	public Ryu(){
+		state=WALK;
+		x=300;
+		y=FLOOR-120;
+		w=150;
+		h=150;
+		loadWalk();
+		loadRightWalk();
+		loadLeftWalk();
+		loadJump();
+		loadAdvanceJump();
+		loadBlock();
+		loadPunch();
+		loadLowKick();
+		loadDoubleKick();
+		loadTatsumaki();
+	}
+	
+	public int getState() {
+		return state;
+	}
+
+	public void setState(int state) {
+		this.state = state;
+	}
+	
+	public void loadTatsumaki() {
+		tatsumaki[0]=image.getSubimage(1892,3451,1966-1892,3564-3451);
+		tatsumaki[1]=image.getSubimage(1980,3456,2043-1980,3544-3456);
+		tatsumaki[2]=image.getSubimage(2056,3461,2112-2056,3532-3461);
+		tatsumaki[3]=image.getSubimage(2127,3450,2228-2127,3557-3450);
+		tatsumaki[4]=image.getSubimage(2230,3456,2293-2230,3560-3456);
+		tatsumaki[5]=image.getSubimage(2293,3457,2398-2293,3558-3457);
+		tatsumaki[6]=image.getSubimage(1834,3590,1900-1834,3690-3590);
+		tatsumaki[7]=image.getSubimage(1913,3587,1972-1913,3693-3587);
+		tatsumaki[8]=image.getSubimage(1984,3588,2043-1984,3695-3588);
+	}
+	
+	int tatsumakiIndex=0;
+	int tatsumakiDelay=0;
+	
+	public void tatsumaki(Graphics g) {
+		if(tatsumakiIndex>=9) {
+			tatsumakiIndex=0;
+		}
+		g.drawImage(tatsumaki[tatsumakiIndex],x,y,w,h,null);
+		
+		if(tatsumakiDelay>=3) {
+			tatsumakiDelay=0;
+			tatsumakiIndex++;
+		}
+		tatsumakiDelay++;
+	}
+	
+	public void loadDoubleKick() {
+		doubleKick[0]=image.getSubimage(1863,2577,1933-1863,2674-2577);
+		doubleKick[1]=image.getSubimage(1942,2576,2010-1942,2675-2576);
+		doubleKick[2]=image.getSubimage(2021,2581,2142-2021,2675-2581);
+		doubleKick[3]=image.getSubimage(2156,2578,2220-2156,2677-2578);
+		doubleKick[4]=image.getSubimage(2230,2582,2298-2230,2675-2582);
+		doubleKick[5]=image.getSubimage(2304,2582,2397-2304,2676-2582);
+	}
+	int doubleKickIndex=0;
+	int doubleKickDelay=0;
+	
+	public void doubleKick(Graphics g) {
+		
+		if(doubleKickIndex>=6) {
+			doubleKickIndex=0;
+		}
+		g.drawImage(doubleKick[doubleKickIndex],x,y,w,h,null);
+		
+		if(doubleKickDelay>=3) {
+			doubleKickDelay=0;
+			doubleKickIndex++;
+		}
+		doubleKickDelay++;
+	}
+	
+	
+
+	public void loadLowKick() {
+		lowKick[0]=image.getSubimage(1921,2467,1990-1921,2563-2467);
+		lowKick[1]=image.getSubimage(2000,2466,2083-2000,2565-2466);
+		lowKick[2]=image.getSubimage(2093,2471,2154-2093,2564-2471);
+		lowKick[3]=image.getSubimage(2163,2474,2271-2163,2564-2474);
+		lowKick[4]=image.getSubimage(2278,2473,2338-2278,2566-2473);
+		lowKick[5]=image.getSubimage(2355,2464,2444-2355,2565-2464);
+	}
+	
+	int lowKickIndex=0;
+	int lowKickDelay=0;
+	
+	public void lowKick(Graphics g) {
+		if(lowKickIndex>=6) {
+			lowKickIndex=0;
+		}
+		g.drawImage(lowKick[lowKickIndex],x,y,w,h,null);
+		
+		if(lowKickDelay>=3) {
+			lowKickDelay=0;
+			lowKickIndex++;
+			
+		}
+		lowKickDelay++;
+		
+	}
+	
+	public void loadPunch() {
+		punch[0]=image.getSubimage(2258,2229,2333-2258,2327-2229);
+		punch[1]=image.getSubimage(2348,2229,2455-2348,2325-2229);
+		punch[2]=image.getSubimage(1854,2354,1918-1854,2450-2354);
+		punch[3]=image.getSubimage(1929,2352,2003-1929,2449-2352);
+		punch[4]=image.getSubimage(2011,2354,2123-2011,2447-2354);
+	}
+	
+	int punchIndex=0;
+	int punchDelay=0;
+	
+	public void punch(Graphics g) {
+		if(punchIndex>=3) {
+			punchIndex=0;
+		}
+		g.drawImage(punch[punchIndex],x,y,w,h,null);
+		
+		if(punchDelay>=4) {
+			punchDelay=0;
+			punchIndex++;
+		}
+		punchDelay++;
+	}
+	
+	public void loadBlock() {
+		block[0]=image.getSubimage(2078,2232,2154-2078,2328-2232);
+		block[1]=image.getSubimage(2161,2231,2241-2161,2326-2231);
+	
+	}
+	
+	int blockIndex=0;
+	int blockDelay=0;
+	
+	public void block(Graphics g) {
+		if(blockIndex>=2) {
+			blockIndex=0;
+		}
+		g.drawImage(block[blockIndex],x,y,w,h,null);
+		if(blockDelay>=3) {
+			blockDelay=0;
+			blockIndex++;
+		}
+		blockDelay++;
+	}
+	
+	public void loadAdvanceJump() {
+		advanceJump[0]=image.getSubimage(1999,2107,2061-1999,2216-2107);
+		advanceJump[1]=image.getSubimage(2077,2112,2138-2077,2203-2112);
+		advanceJump[2]=image.getSubimage(2153,2133,2250-2153,2180-2133);
+		advanceJump[3]=image.getSubimage(2268,2114,2326-2268,2196-2114);
+		advanceJump[4]=image.getSubimage(2338,2138,2458-2338,2184-2138);
+		advanceJump[5]=image.getSubimage(1832,2240,1904-1832,2337-2240);
+		advanceJump[6]=image.getSubimage(1925,2238,1992-1925,2333-2238);
+		advanceJump[7]=image.getSubimage(2006,2232,2071-2006,2341-2232);
+	}
+	
+	int advanceJumpIndex=0;
+	int advanceJumpDelay=0;
+	
+	public void advanceJump(Graphics g) {
+		
+		if(advanceJumpIndex>=8) {
+			advanceJumpIndex=0;
+		}
+		g.drawImage(advanceJump[advanceJumpIndex],x,y,w,h,null);
+		
+		if(advanceJumpDelay>=5) {
+			advanceJumpDelay=0;
+			advanceJumpIndex++;
+		}
+		advanceJumpDelay++;
+	}
+	
+	public void loadRightWalk() {
+		rightWalk[0]=image.getSubimage(1889,1768,1955-1889,1864-1768);
+		rightWalk[1]=image.getSubimage(1972,1766,2036-1972,1863-1766);
+     	rightWalk[2]=image.getSubimage(2053,1767,2109-2053,1864-1767);
+		rightWalk[3]=image.getSubimage(2126,1767,2185-2126,1862-1767);
+		rightWalk[4]=image.getSubimage(2200,1766,2260-2200,1863-1766);
+		rightWalk[5]=image.getSubimage(2278,1771,2342-2278,1861-1771);
+	}
+	int rightWalkIndex=0;
+	int rightWalkDelay=0;
+	
+	public void rightWalk(Graphics g) {
+		if(rightWalkIndex>=6) {
+			rightWalkIndex=0;
+		}
+		g.drawImage(rightWalk[rightWalkIndex],x,y,w,h,null);
+		if(rightWalkDelay>=9) {
+			rightWalkDelay=0;
+			rightWalkIndex++;
+		}
+		rightWalkIndex++;
+	}
+
+	
+	public void loadLeftWalk() {
+		
+		leftWalk[0]=image.getSubimage(1884,1877,1953-1884,1974-1877);
+		leftWalk[1]=image.getSubimage(1963,1877,2023-1963,1974-1877);
+		leftWalk[2]=image.getSubimage(2040,1876,2099-2040,1974-1876);
+		leftWalk[3]=image.getSubimage(2117,1876,2177-2117,1974-1876);
+		leftWalk[4]=image.getSubimage(2195,1877,2259-2195,1976-1877);
+		leftWalk[5]=image.getSubimage(2278,1881,2345-2278,1974-1881);
+	}
+	int leftWalkIndex=0;
+	int leftWalkDelay=0;
+	
+	public void leftWalk(Graphics g) {
+		if(leftWalkIndex>=6) {
+			leftWalkIndex=0;
+		}
+		g.drawImage(leftWalk[leftWalkIndex],x,y,w,h,null);
+		if(leftWalkDelay>=2) {
+			leftWalkDelay=0;
+			leftWalkIndex++;
+		}
+		leftWalkDelay++;
+		
+	}
+	
+	public void  loadJump() {
+		jump[0]=image.getSubimage(1860,1990,1925-1860,2081-1990);
+		jump[1]=image.getSubimage(1936,1995,1998-1936,2101-1995);
+		jump[2]=image.getSubimage(2016,1993,2081-2016,2083-1993);
+		jump[3]=image.getSubimage(2095,1994,2160-2095,2062-1994);
+		jump[4]=image.getSubimage(2171,1999,2233-2171,2064-1999);
+		jump[5]=image.getSubimage(2247,1995,2313-2247,2083-1995);
+		jump[6]=image.getSubimage(2324,1994,2392-2324,2102-1994);
+	}
+	int jumpIndex=0;
+	int jumpDelay=0;
+	
+	public void jump(Graphics g) {
+		if(jumpIndex>=7) {
+			jumpIndex=0;
+		}
+		g.drawImage(jump[jumpIndex],x,y,w,h,null);
+		if(jumpDelay>=5) {
+			jumpDelay=0;
+			jumpIndex++;
+		}
+		jumpDelay++;
+	}
+	
+	public void loadWalk() {
+		walk[0]=image.getSubimage(1937,1657,2003-1937,1752-1657);
+		walk[1]=image.getSubimage(2015,1655,2083-2015,1753-1655);
+     	walk[2]=image.getSubimage(2094,1657,2163-2094,1753-1657);
+		walk[3]=image.getSubimage(2175,1657,2242-2175,1753-1657);
+		walk[4]=image.getSubimage(2253,1653,2319-2253,1754-1653);
+		walk[5]=image.getSubimage(2329,1652,2396-2329,1754-1652);
+		
+	}
+	
+	int walkIndex=0;
+	int walkDelay=0;
+	
+	public void walk(Graphics g) {
+	
+		if(walkIndex>=6) {
+			walkIndex=0;
+		}
+		g.drawImage(walk[walkIndex],x,y,w,h,null);
+		if(walkDelay>=3) {
+		    walkDelay=0;
+		    walkIndex++;
+		}
+		walkDelay++;
+		
+	}
+	
+	public void direction(int dir) {
+		speed=6;
+		speed=speed*dir;
+	}
+	
+	public void move() {
+		x+=speed;
+	}
+	
+	public void jump() {
+		if(!isJumped) {
+		    isJumped=true;
+			force=-30;
+		    y+=force;
+		
+		}
+	}
+	
+	public void fall() {
+         if(y>=(FLOOR-h)) {
+        	 isJumped=false;
+        	 y=FLOOR-h;
+         }
+         if(y<(FLOOR-h)) {
+        	 force+=GRAVITY;
+        	 y+=force;
+         }
+	
+	}
+	
+	
+	
+	
+	
+	public void drawRyu(Graphics g) {
+		if(state==WALK) {
+			walk(g);
+		}
+		
+		if(state==JUMP) {
+			jump(g);
+		}
+		
+		if(state==RWALK) {
+			rightWalk(g);
+		}
+		
+		if(state==LWALK) {
+			leftWalk(g);
+		}
+		
+		if(state==ADVANCEJUMP) {
+			advanceJump(g);
+		}
+		if(state==BLOCK) {
+			block(g);
+		}
+		if(state==LEFTPUNCH) {
+			punch(g);
+		}
+		if(state==LOWKICK) {
+			lowKick(g);
+		}
+		if(state==DOUBLEKICK) {
+			doubleKick(g);
+		}
+		if(state==TATSUMAKI) {
+			tatsumaki(g);
+		}
+		
+		
+		
+		
+		
+	}
+	
+	public void powerBoard(Graphics g)
+	{
+		g.setColor(Color.BLACK);
+		g.fillRect(100,45,450,40);
+	}
+	
+	public void power(Graphics g)
+	{
+		g.setColor(Color.RED);
+		g.fillRect(110,50,430,30);
+	}
+
+}

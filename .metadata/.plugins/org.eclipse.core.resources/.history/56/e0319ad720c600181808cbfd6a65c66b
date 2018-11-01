@@ -1,0 +1,25 @@
+package com.bmpl.test;
+
+import java.io.File;
+
+public class FileFilter {
+	public static void main(String args[])
+	{
+		File f = new File("D:\\");
+		
+		System.out.println(f.getAbsolutePath());
+		int totalfile = f.list().length;
+		System.out.println(f.getTotalSpace());
+		System.out.println(f.getFreeSpace());
+		System.out.println(f.getUsableSpace());
+//		System.out.println(((f.getTotalSpace()/1024)/1024)/1024);
+		System.out.println("Total file is: "+totalfile);
+		String txt[] = f.list();
+		
+		for(int i=0;i<txt.length;i++)
+		{
+			System.out.println(txt[i]);
+		}
+	}
+
+}

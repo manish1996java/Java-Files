@@ -1,0 +1,91 @@
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+public class Player extends Sprite implements GameConstants {
+	
+	int speed;
+	
+	public Player()
+	{
+		loadRightwalk();
+		loadLeftwalk();
+		loadJump();
+	}
+	
+	BufferedImage[] rightwalk=new BufferedImage[6];
+	public void loadRightwalk()
+	{
+		rightwalk[0]=image.getSubimage(255,0,275-255,34);
+		rightwalk[1]=image.getSubimage(294,0,312-294,34);
+		rightwalk[2]=image.getSubimage(314,0,329-314,34);
+		rightwalk[3]=image.getSubimage(330,0,349-330,33);
+		rightwalk[4]=image.getSubimage(255,0,275-255,34);
+		
+	}
+	
+	int rightwalkIndex=0;
+	int rightwalkDelay=0;
+	public void drawRightwalk(Graphics g)
+	{
+		
+		
+	}
+	
+	BufferedImage[] leftwalk=new BufferedImage[7];
+	public void loadLeftwalk()
+	{
+		leftwalk[0]=image.getSubimage(236,0,256-236,33);
+		leftwalk[1]=image.getSubimage(199,0,218-199,33);
+		leftwalk[2]=image.getSubimage(182,0,329-182,33);
+		leftwalk[3]=image.getSubimage(165,0,183-165,33);
+		leftwalk[4]=image.getSubimage(236,0,256-236,33);
+	}
+	
+	int leftwalkIndex=0;
+	int leftwalkDelay=0;
+	public void drawLeftwalk(Graphics g)
+	{
+		
+	}
+	
+	
+	
+	public void direction(int dir)
+	{
+		if(dir==1)
+		{
+			
+		}
+		if(dir==-1)
+		{
+			
+		}
+		speed=5;
+		speed=speed*dir;
+	}
+	
+	
+	public void walk() {
+		x+=speed;
+	}
+	
+	BufferedImage[] jump=new BufferedImage[7];
+	public void loadJump()
+	{
+		jump[0]=image.getSubimage(236,0,256-236,33);
+		jump[1]=image.getSubimage(367,0,387-367,34);
+		jump[2]=image.getSubimage(367,0,387-367,34);
+		jump[3]=image.getSubimage(367,0,387-367,34);
+		jump[4]=image.getSubimage(236,0,256-236,33);
+	}
+	public void jump()
+	{
+		
+	}
+	public void drawPlayer(Graphics g)
+	{
+		
+	}
+	
+
+}

@@ -1,0 +1,20 @@
+package com.bmpl.test;
+
+import java.util.Scanner;
+
+public class DynamicClassTest {
+
+	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException {
+		
+		System.out.println("Enter the name of class");
+		String name = new Scanner(System.in).next();
+		String packageName = "com.bmpl.test.user.view.";
+		Object object = Class.forName(packageName+name).newInstance();
+		
+		
+		
+		
+
+	}
+
+}

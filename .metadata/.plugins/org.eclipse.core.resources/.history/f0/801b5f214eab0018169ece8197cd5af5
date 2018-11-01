@@ -1,0 +1,223 @@
+
+
+
+
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Board extends JPanel implements GameConstant {
+	
+	private int x;
+	private int y;
+	
+	
+	
+	private CameraEffect camera;
+	private Car car;
+	private Timer timer;
+	private Enemy enemy;
+	private Enemy[] enemies=new Enemy[MAXENEMY];
+	private Enemy[] truckenemies=new Enemy[3];
+	private ScoreBoard scoreboard;
+	private int score=0;
+	
+	Board(){
+		camera=new CameraEffect();
+		setSize(G_WIDTH,G_HEIGHT);
+		enemy=new Enemy();
+		car=new Car();
+		scoreboard= new ScoreBoard();
+		loadEnemy();
+		loadTruckEnemy();
+		bindEvent();
+		gameLoop();
+		setFocusable(true);
+		
+	
+	}
+	
+	private boolean collision()
+	{
+		int max_width=car.getW()>enemy.getW()?car.getW():enemy.getW();
+		int max_height=car.getH()>enemy.getH()?car.getH():enemy.getH();
+		
+		int x_distance=Math.abs(car.getX()-enemy.getX());
+		int y_distance=Math.abs(car.getY()-enemy.getY());;
+		
+		return (x_distance<max_width)&&(y_distance<max_height);
+	}
+	
+	private void loadEnemy()
+	{
+		int x=450;
+		int y=G_WIDTH-400;
+		int speed =1;
+		for(int i=0;i<enemies.length;i++)
+		{
+			enemies[i]=new Enemy(x,y,speed);
+			speed++;
+			y-=700;
+			x+=30;
+		}
+	}
+	
+	private void loadTruckEnemy()
+	{
+		x=360;
+		y=G_WIDTH-700;
+		for(int i=0;i<truckenemies.length;i++)
+		{
+			truckenemies[i]=new Enemy(x,y);
+			x+=100;
+			if(x>450)
+			{
+			x-=50;
+			}
+			y-=700;
+		}
+	}
+	
+	private void printtruckEnemy(Graphics g)
+	{
+		for(Enemy enemy:truckenemies)
+		{
+			enemy.truckEnemy(g);
+			enemy.move();
+		}
+	}
+	
+	private void printEnemy(Graphics g)
+	{
+		for(Enemy enemy:enemies)
+		{
+//			g.drawEnemy();
+			enemy.carEnemy(g);
+			enemy.move();
+		}
+	}
+	
+	
+	
+	private void gameLoop() {
+		
+		ActionListener l=new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				repaint();
+				if(camera.getY()>100)
+				{
+				camera.up();
+				}
+				enemy.move();
+				car.move();
+				if(camera.getY()<100)
+				{
+					if(car.getY()>30) {
+						car.moveup();
+					}
+				}
+//				scoreboard.setScore(score);
+			}
+		};
+	
+	   timer=new Timer(DELAY,l);
+	   timer.start();
+	  
+	}
+	
+	private void bindEvent() {
+		KeyListener l=new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				car.direction(0);
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_DOWN) {
+				}
+				
+				if(e.getKeyCode()==KeyEvent.VK_UP) {
+				}
+				if(e.getKeyCode()==KeyEvent.VK_LEFT) {
+					car.direction(-1);
+				}
+				if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
+					car.direction(1);
+				}
+				
+			}
+		};
+		this.addKeyListener(l);
+	}
+	
+//	private void Count(Graphics g)
+//	{
+//		g.drawString("count"+count,G_WIDTH-200,200);
+//	}
+	private void drawScore(Graphics g) {
+		scoreboard.drawScore(g);
+	}
+	
+	private void drawBackGround(Graphics g) {
+        camera.drawCameraImage(g);
+       
+	}
+	
+	private void gameOver(Graphics g)
+	{
+		g.drawString("GAME OVER", G_WIDTH/2, G_HEIGHT/2);
+	}
+	private void drawScoreboard(Graphics g)
+	{
+		scoreboard.drawScoreBoard(g);
+	}
+	
+	private void drawFlage(Graphics g)
+	{
+		scoreboard.drawFlage(g);
+	}
+	
+	private void drawCircle(Graphics g)
+	{
+		scoreboard.drawCircle(g);
+	}
+
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		drawBackGround(g);
+		scoreboard.drawScoreBoard(g);
+		scoreboard.drawFlage(g);
+		scoreboard.drawCircle(g);
+		drawScore(g);
+		printtruckEnemy(g);
+		printEnemy(g);
+		enemy.drawEnemy(g);
+		
+		car.drawCar(g);
+		if(collision())
+		{
+			gameOver(g);
+			timer.stop();
+		}
+	}
+}

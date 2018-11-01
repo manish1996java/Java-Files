@@ -1,0 +1,51 @@
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Camera implements GameConstants {
+	private int x;
+	private int y;
+	private int w;
+	private int h;
+	private int speed;
+	private Player player;
+	private BufferedImage image;
+	
+	public Camera(){
+		w=GWIDTH;
+		h=GHEIGHT;
+		speed=5;
+		player=new Player();
+		loadBackground();
+	}
+	
+	private void loadBackground() {
+		try {
+			image=ImageIO.read(Camera.class.getResource(BACKGROUND_IM));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void drawBackground(Graphics g) {
+		BufferedImage subimage=image.getSubimage(x,y,300,243);
+		g.drawImage(subimage,0,0,w,h,null);
+	}
+	
+	public void right()
+	{ 
+		if(player.getX() == (GWIDTH/2))
+		{
+		x+=speed;
+		}
+	}
+	
+//	public void left() {
+//		if(player.getX()==50)
+//		x-=speed;
+//	}
+
+}

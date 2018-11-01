@@ -1,0 +1,5 @@
+package com.bmpl.sms.users.CommonGenricDTO;
+
+public class CommonGenricDTO {
+
+}

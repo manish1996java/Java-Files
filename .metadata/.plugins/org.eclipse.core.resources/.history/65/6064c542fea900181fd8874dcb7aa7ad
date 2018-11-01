@@ -1,0 +1,141 @@
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+public class Player extends Sprite implements GameConstants,PlayerState{
+	
+	int speed;
+	int state;
+	
+	public Player()
+	{
+		state=1;
+		x=100;
+		y=FLOOR-60;
+		w=50;
+		h=60;
+		loadRightwalk();
+		loadLeftwalk();
+		loadJump();
+		loadwalk();
+	}
+	
+	BufferedImage[] rightwalk=new BufferedImage[5];
+	public void loadRightwalk()
+	{
+		rightwalk[0]=image.getSubimage(255,0,275-255,34);
+		rightwalk[1]=image.getSubimage(294,0,312-294,34);
+		rightwalk[2]=image.getSubimage(314,0,329-314,34);
+		rightwalk[3]=image.getSubimage(330,0,349-330,33);
+		rightwalk[4]=image.getSubimage(255,0,275-255,34);
+		
+	}
+	
+	int rightwalkIndex=0;
+	int rightwalkDelay=0;
+	public void drawRightwalk(Graphics g)
+	{
+		if(rightwalkIndex>=5)
+		{
+			rightwalkIndex=0;
+		}
+		
+		g.drawImage(rightwalk[rightwalkIndex],x,y,w,h,null);
+		
+		if(rightwalkDelay>=3)
+		{
+		rightwalkDelay=0;
+		rightwalkIndex++;
+		}
+		rightwalkDelay++;
+		
+	}
+	
+	BufferedImage[] leftwalk=new BufferedImage[5];
+	public void loadLeftwalk()
+	{
+		leftwalk[0]=image.getSubimage(236,0,256-236,33);
+		leftwalk[1]=image.getSubimage(199,0,218-199,33);
+		leftwalk[2]=image.getSubimage(182,0,329-182,33);
+		leftwalk[3]=image.getSubimage(165,0,183-165,33);
+		leftwalk[4]=image.getSubimage(236,0,256-236,33);
+	}
+	
+	int leftwalkIndex=0;
+	int leftwalkDelay=0;
+	public void drawLeftwalk(Graphics g)
+	{
+		
+	}
+	
+	
+	
+	public void direction(int dir)
+	{
+		if(dir==1)
+		{
+			state=2;
+		}
+		if(dir==-1)
+		{
+			state=3;
+		}
+		speed=5;
+		speed=speed*dir;
+	}
+	
+	
+	
+	
+	
+	BufferedImage walk;
+	public void loadwalk() {
+		walk=image.getSubimage(257,0,275-257,33);
+	}
+	
+	public void drawWalk(Graphics g)
+	{
+		g.drawImage(walk,x,y,w,h,null);
+	}
+	
+	public void move() {
+		x+=speed;
+	}
+	
+	
+	
+	
+	BufferedImage[] jump=new BufferedImage[5];
+	public void loadJump()
+	{
+		jump[0]=image.getSubimage(236,0,256-236,33);
+		jump[1]=image.getSubimage(367,0,387-367,34);
+		jump[2]=image.getSubimage(367,0,387-367,34);
+		jump[3]=image.getSubimage(367,0,387-367,34);
+		jump[4]=image.getSubimage(236,0,256-236,33);
+	}
+	public void jump()
+	{
+		
+	}
+	public void drawPlayer(Graphics g)
+	{
+		if(state==WALK) {
+			drawWalk(g);	
+		}
+		if(state==RIGHTWALK)
+		{
+			drawRightwalk(g);
+		}
+		if(state==LEFTWALK)
+		{
+			drawLeftwalk(g);
+		}
+		if(state==JUMP)
+		{
+			
+		}
+		
+	}
+	
+
+}

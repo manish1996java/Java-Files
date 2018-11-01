@@ -1,0 +1,91 @@
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Board  extends JPanel implements GameConstants{
+	
+	Camera camera;
+	Timer timer;
+	Player player;
+	
+	public Board()
+	{
+		setSize(GWIDTH,GHEIGHT);
+		camera=new Camera();
+		player=new Player();
+		BindEvent();
+		GameLoop();
+		setFocusable(true);
+		
+	}
+	
+	private void BindEvent()
+	{
+		KeyListener l = new KeyListener()
+				{
+
+					@Override
+					public void keyPressed(KeyEvent e) {
+						if(e.getKeyCode() == KeyEvent.VK_LEFT)
+						{
+							player.direction(-1);
+//							camera.left();
+						}
+						if(e.getKeyCode() == KeyEvent.VK_RIGHT)
+						{
+							player.direction(1);
+//							camera.right();
+						}
+						
+						
+					}
+
+					@Override
+					public void keyReleased(KeyEvent e) {
+						player.direction(0);
+						player.state=1;
+						
+					}
+
+					@Override
+					public void keyTyped(KeyEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+			
+				};
+				this.addKeyListener(l);
+	}
+	private void GameLoop()
+	{
+		ActionListener l= new ActionListener()
+				{
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						repaint();
+						player.move();
+						
+					}
+			
+				};
+				timer = new Timer(DELAY,l);
+				timer.start();
+	}
+	private void drawBackground(Graphics g)
+	{
+		camera.drawBackground(g);
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		super.paintComponent(g);
+		drawBackground(g);
+		player.drawPlayer(g);
+	}
+}

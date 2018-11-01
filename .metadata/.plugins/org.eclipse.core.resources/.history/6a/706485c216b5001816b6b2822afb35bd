@@ -1,0 +1,5 @@
+package com.bmpl.testengin.user.dao;
+
+public class UserDAO {
+
+}

@@ -1,0 +1,85 @@
+package com.brainmentors.Testengin.user.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+import com.brainmentors.Testengin.utils.CommonDAO;
+
+public class UserDAO {
+	
+	public String doLogin(String userid,String password) throws ClassNotFoundException, SQLException
+	{
+		Connection con =  null;
+		PreparedStatement ps= null;
+		ResultSet rs= null;
+		
+		
+		con= CommonDAO.getConnection(); 
+		ps = con.prepareStatement("Select name,password from test where name=? and password=?;");
+		ps.setString(1, userid);
+		ps.setString(2, password );
+		rs = ps.executeQuery();
+		
+		
+		return "";
+	}
+	public static void main(String args[])
+	{
+		
+		Connection con=null;
+		PreparedStatement ps= null;
+		ResultSet rs=null;
+		try {
+			ResourceBundle rb= ResourceBundle.getBundle("config");
+			
+//			Class.forName("org.postgresql.Driver");
+			Class.forName(rb.getString("driver"));
+			System.out.println("Driver is loaded");
+		
+		
+//			con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/testengin","postgres","manish");
+			con=DriverManager.getConnection(rb.getString("url"), rb.getString("userid"), rb.getString("password"));
+			if(con!=null)
+			{
+				System.out.println("Connection establised");
+			}
+			ps=con.prepareStatement("Select * from test");
+			rs=ps.executeQuery();
+			
+			while(rs.next())
+			{
+				System.out.println("Name :"+rs.getString("name")+"  Password :"+rs.getString("password"));
+			}
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Please Contact Software Admin");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("DB level problem");
+		}  catch (Exception e)
+		{
+			System.out.println("some mislanius problem");
+		}
+		finally {
+			try {
+				con.close();
+				ps.close();
+				rs.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e)
+			{
+				System.out.println("Exception during closing");
+			}
+
+		}
+	}
+}

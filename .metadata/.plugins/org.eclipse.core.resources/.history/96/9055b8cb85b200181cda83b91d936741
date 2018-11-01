@@ -1,0 +1,56 @@
+package practice;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Connect {
+
+	public static void main(String[] args) {
+		
+		Connection con= null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try {
+			Class.forName("org.postgresql.Driver");
+			System.out.println("Driver Loaded");
+			
+//			con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/organisation", "postgres", "manish");
+//			con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/testengin","postgres","manish");
+			
+			con =  DriverManager.getConnection("jdbc:postgresql://localhost:5432/testengin", "postgres", "manish");
+			if(con!=null)
+			{
+				System.out.println("Connection Established");
+			}
+			
+			
+			ps = con.prepareStatement("Select * from compony;");
+			rs = ps.executeQuery();
+			
+			System.out.println("ID |\t NAME |\t AGE |\t ADD| \t SALARY| \t DISTRIC| \t PHONE");
+			System.out.println("------------------------------------------------------------");
+			
+			
+			while(rs.next())
+			{
+				System.out.println("ID "+rs.getString("id")+"NAME"+rs.getString("name")+"AGE"+rs.getString("age")+"ADD"+rs.getString("add")+"SALARY"+rs.getString("salary")+"DISTRIC"+rs.getString("distric")+"PHONE"+rs.getString("phone"));
+					
+			}
+			
+		} 
+		catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		catch (SQLException e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+
+}

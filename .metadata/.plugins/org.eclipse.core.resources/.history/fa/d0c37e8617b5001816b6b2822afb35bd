@@ -1,0 +1,29 @@
+package com.bmpl.testengin.user.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class UserDAO {
+	
+	Connection con = null;
+	PreparedStatement ps=null;
+	ResultSet rs = null;
+	
+	
+		try {
+			Class.forName("org.postgresql.Driver");
+			System.out.println("Driver loaded");
+			
+			con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/testengin", "postgresql", "manish");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	
+	
+	
+	
+
+}

@@ -1,0 +1,42 @@
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+public class Player extends Sprite implements GameConstants {
+	
+	int speed;
+	
+	public Player()
+	{
+		
+	}
+	
+	public void direction()
+	{
+		
+	}
+	
+	BufferedImage[] walk=new BufferedImage[7];
+	public void drawWalk(Graphics g)
+	{
+		
+	}
+	public void walk() {
+		
+	}
+	
+	BufferedImage[] jump=new BufferedImage[7];
+	public void drawJump(Graphics g)
+	{
+		
+	}
+	public void jump()
+	{
+		
+	}
+	public void drawPlayer(Graphics g)
+	{
+		
+	}
+	
+
+}

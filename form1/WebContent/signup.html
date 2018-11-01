@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+
+<style>
+	th{
+	background-color:pink;
+	}
+
+	td{
+	background-color:skyblue;
+	}
+</style>
+</head>
+<body>
+	<form action="process.jsp" method="post">
+		<table border=2px align="center">
+			<tr>
+				<th colspan=2>SignUp</th>
+			</tr>
+			<tr>
+				<td>Name :</td>
+				<td><input type='text' name='name'></td>
+			</tr>
+			<tr>
+				<td>Password:</td>
+				<td><input type='password' name='password'></td>
+			</tr>
+			<tr>
+				<td>Confirm:</td>
+				<td><input type='password' name='confirm'></td>
+			</tr>
+			<tr>
+				<td>Country</td>
+				<td>
+					<Select>
+						<option name='country' value=''></option>
+						<option name='country' value='India'>India</option>
+						<option name='country' value='USA'>USA</option>
+						<option name='country' value='London'>London</option>
+						<option name='country' value='Afrika'>Afrika</option>
+						<option name='country' value='Pakistan'>Pakistan</option>
+						<option name='country' value='Chin'>Chin</option>
+						<option name='country' value='California'>California</option>
+					</Select>
+				</td>
+			</tr>
+			<tr>
+				<td>contact</td>
+				<td><input type='text' name='contact'></td>
+			</tr>
+			<tr>
+				<td>DOB</td>
+				<td><input type='date' name='dob'></td>
+			</tr>
+			<tr>
+				<td>Gender</td>
+				<td>
+				Male<input type='radio' name='gender' value='male'>
+				Female<input type='radio' name='gender' value='female'>
+				</td>
+			<tr>
+				<td>Role</td>
+				<td><input type='text' name='role'></td>
+			</tr>
+			<tr>
+				<td><input type='submit' value='SignUp'></td>
+				<td><input type='reset' name='Reset'></td>
+			</tr>
+		</table>
+	</form>
+
+</body>
+</html>

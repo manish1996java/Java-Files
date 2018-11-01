@@ -1,0 +1,9 @@
+package com.brainmentors.Testengin.user.dao;
+
+public class User2DAO {
+
+	public static void main(String[] args) {
+		
+	}
+
+}

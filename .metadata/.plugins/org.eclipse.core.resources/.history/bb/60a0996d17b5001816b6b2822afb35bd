@@ -1,0 +1,21 @@
+package com.bmpl.testengin.user.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class UserDAO {
+	
+	Connection con = null;
+	PreparedStatement ps=null;
+	ResultSet rs = null;
+	
+	{
+	
+		
+	}
+	
+	
+	
+
+}

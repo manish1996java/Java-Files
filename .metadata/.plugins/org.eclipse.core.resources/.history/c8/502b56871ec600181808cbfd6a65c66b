@@ -1,0 +1,14 @@
+package com.bmpl.test;
+
+import java.io.File;
+
+public class FileFilter {
+	public static void main(String args[])
+	{
+		File f = new File("D:\\");
+		
+		System.out.println(f.length());
+		
+	}
+
+}

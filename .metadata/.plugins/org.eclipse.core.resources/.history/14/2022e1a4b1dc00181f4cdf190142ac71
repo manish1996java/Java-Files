@@ -1,0 +1,10 @@
+package com.bmpl.sms.test;
+
+public class Test {
+	public static void main(String args[])
+	{
+		SplashScreen screen = new SplashScreen();
+		screen.setVisible(true);
+		
+	}
+}

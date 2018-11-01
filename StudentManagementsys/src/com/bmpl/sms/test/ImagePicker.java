@@ -1,0 +1,40 @@
+package com.bmpl.sms.test;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Scanner;
+
+import com.bmpl.sms.utils.CommonDAO;
+
+public class ImagePicker {
+
+//	public static void main(String args[]) throws ClassNotFoundException, SQLException{
+	public String pickImage() throws ClassNotFoundException, SQLException {
+
+		String coname = "bookco";
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		con = CommonDAO.getConnection();
+		ps = con.prepareStatement("select coid,image,description,coname from componey where coname = ?");
+		ps.setString(1, coname);
+//		ps.setString(2, str);
+		rs = ps.executeQuery();
+		System.out.println("**********************************");
+		if(rs.next())
+		{
+		System.out.println(rs.getString("coid"));
+		System.out.println(rs.getString("image"));
+		System.out.println(rs.getString("description"));
+		System.out.println(rs.getString("coname"));
+		
+		}
+	
+		return rs.getString("image");
+	}
+
+}

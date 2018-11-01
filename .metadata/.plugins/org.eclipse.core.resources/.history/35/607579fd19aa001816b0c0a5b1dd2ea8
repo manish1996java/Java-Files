@@ -1,0 +1,139 @@
+
+
+
+
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Board extends JPanel implements GameConstant {
+	
+	private int x;
+	private int y;
+	
+	
+	
+	private CameraEffect camera;
+	private Car car;
+	private Timer timer;
+	private Enemy enemy;
+	private ScoreBoard scoreboard;
+	private int score=0;
+	
+	Board(){
+		camera=new CameraEffect();
+		setSize(G_WIDTH,G_HEIGHT);
+		enemy=new Enemy();
+		car=new Car();
+		scoreboard= new ScoreBoard();
+		bindEvent();
+		gameLoop();
+		setFocusable(true);
+	
+	}
+	
+	private void gameLoop() {
+		
+		ActionListener l=new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				repaint();
+				if(camera.getY()>100)
+				{
+				camera.up();
+				}
+				enemy.move();
+				car.move();
+				
+//				scoreboard.setScore(score);
+			}
+		};
+	
+	   timer=new Timer(DELAY,l);
+	   timer.start();
+	  
+	}
+	
+	private void bindEvent() {
+		KeyListener l=new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				car.direction(0);
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_DOWN) {
+				}
+				
+				if(e.getKeyCode()==KeyEvent.VK_UP) {
+				}
+				if(e.getKeyCode()==KeyEvent.VK_LEFT) {
+					car.direction(-1);
+				}
+				if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
+					car.direction(1);
+				}
+				
+			}
+		};
+		this.addKeyListener(l);
+	}
+	
+//	private void Count(Graphics g)
+//	{
+//		g.drawString("count"+count,G_WIDTH-200,200);
+//	}
+	private void drawScore(Graphics g) {
+		scoreboard.drawScore(g);
+	}
+	
+	private void drawBackGround(Graphics g) {
+        camera.drawCameraImage(g);
+       
+	}
+	
+	private void drawScoreboard(Graphics g)
+	{
+		scoreboard.drawScoreBoard(g);
+	}
+	
+	private void drawFlage(Graphics g)
+	{
+		scoreboard.drawFlage(g);
+	}
+	
+	private void drawCircle(Graphics g)
+	{
+		scoreboard.drawCircle(g);
+	}
+
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		drawBackGround(g);
+		scoreboard.drawScoreBoard(g);
+		scoreboard.drawFlage(g);
+		scoreboard.drawCircle(g);
+		drawScore(g);
+		enemy.drawEnemy(g);
+		car.drawCar(g);
+	}
+}

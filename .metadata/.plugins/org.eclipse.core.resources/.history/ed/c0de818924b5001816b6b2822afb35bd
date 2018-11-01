@@ -1,0 +1,49 @@
+package com.bmpl.testengin.user.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.bmpl.testengin.utils.CommonDAO;
+import com.bmpl.testengin.utils.SQLConstant;
+
+public class UserDAO {
+	
+	public static void main(String args[])
+	{
+	
+	Connection con = null;
+	PreparedStatement ps=null;
+	ResultSet rs = null;
+	SQLConstant sqlcons=null;
+	
+	try {
+	
+	con=CommonDAO.getConnection();
+	
+	ps=con.prepareStatement(sqlcons.LOGIN_SQL);
+	
+	
+	
+	if(ps!=null) {
+	System.out.println("Statemnt Prepared");
+	}
+	rs=ps.executeQuery();
+	if(rs!=null)
+	{
+	System.out.println("Query Executed");
+	}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch(Exception e)
+		{
+			System.out.println("mislanous problem");
+		}
+	
+	}
+}

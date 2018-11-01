@@ -1,0 +1,150 @@
+package com.bmpl.test.user.view;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import com.bmpl.test.user.UserDTO.UserDTO;
+import com.bmpl.test.user.userDAO.UserDAO;
+import com.bmpl.test.utils.CommonConstants;
+
+public class LoginView extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField userid;
+	private JPasswordField passwordField;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginView frame = new LoginView();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	private void reset()
+	{
+		userid.setText("");
+		passwordField.setText("");
+	}
+	
+	
+	
+	public void checkLogin() {
+		String uid = userid.getText();
+		String pass = new String(passwordField.getPassword());
+		UserDTO userDTO = null;
+		UserDAO userDAO = new UserDAO();
+		try {
+			userDTO = userDAO.doLogin(uid, pass);
+//			JOptionPane.showMessageDialog(this, msg, "testengin", JOptionPane.INFORMATION_MESSAGE);
+		if(userDTO != null)
+		{
+			JOptionPane.showMessageDialog(this, "Wellcome  "+uid , "testengin", JOptionPane.INFORMATION_MESSAGE);
+			Dashboard dashboard = new Dashboard(userDTO);
+			dashboard.setExtendedState(MAXIMIZED_BOTH);
+			dashboard.setVisible(true);
+		}
+		else {
+			JOptionPane.showMessageDialog(this,"invalid user or password ", "testengin", JOptionPane.INFORMATION_MESSAGE);
+			reset();
+		}
+		
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	private void closeOperation() {
+		this.setVisible(false);
+	}
+	
+	/**
+	 * Create the frame.
+	 */
+	public LoginView() {
+		this.addWindowListener(new WindowAdapter() {
+			
+			public void windowClosing(WindowEvent e) {
+				closeOperation();
+			}
+		});
+		setTitle("LoginView");
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnLogin = new JButton("Login");
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				checkLogin();
+			}
+		});
+		btnLogin.setBounds(10, 228, 89, 23);
+		contentPane.add(btnLogin);
+		
+		JButton btnSignup = new JButton("SignUp");
+		btnSignup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				SignupView signupview = new SignupView();
+				signupview.setVisible(true);
+				
+			}
+		});
+		btnSignup.setBounds(109, 228, 89, 23);
+		contentPane.add(btnSignup);
+		
+		userid = new JTextField();
+		userid.setBounds(109, 88, 279, 20);
+		contentPane.add(userid);
+		userid.setColumns(10);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(109, 132, 279, 20);
+		contentPane.add(passwordField);
+		
+		JLabel lblUserid = new JLabel("UserId");
+		lblUserid.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblUserid.setBounds(10, 91, 69, 14);
+		contentPane.add(lblUserid);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblPassword.setBounds(10, 135, 69, 14);
+		contentPane.add(lblPassword);
+		
+		JLabel lblLoginview = new JLabel("Login-View");
+		lblLoginview.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 22));
+		lblLoginview.setBounds(141, 23, 125, 27);
+		contentPane.add(lblLoginview);
+	}
+}

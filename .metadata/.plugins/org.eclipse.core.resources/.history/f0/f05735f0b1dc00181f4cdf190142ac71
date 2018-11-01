@@ -1,0 +1,14 @@
+package com.bmpl.sms.test;
+
+public class Test {
+	public static void main(String args[]) throws InterruptedException
+	{
+		SplashScreen screen = new SplashScreen();
+		screen.setVisible(true);
+		for(int i=0;i<=100;i++) {
+			Thread.sleep(40);
+			screen.loadingnum.setText(Integer.toString(i)+"%");
+			screen.loadingbar.setValue(i);
+		}
+	}
+}

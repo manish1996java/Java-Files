@@ -1,0 +1,10 @@
+package com.brainmentors.Testengin.user.dao;
+
+public class User3DAO {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

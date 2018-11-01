@@ -1,0 +1,10 @@
+
+public interface GameConstants {
+	int GWIDTH=1300;
+	int GHEIGHT=600;
+	int DELAY=50;
+	
+	
+	String TITLE="StreetFighter-2018";
+
+}

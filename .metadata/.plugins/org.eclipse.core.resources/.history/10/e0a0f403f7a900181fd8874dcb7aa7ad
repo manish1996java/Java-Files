@@ -1,0 +1,14 @@
+
+public interface GameConstants {
+	int GWIDTH=1000;
+	int GHEIGHT=500;
+	int FLOOR=GHEIGHT-100;
+	int GRAVITY=1;
+	int DELAY=50;
+	
+	
+	String TITLE="Mario -2018";
+	String BACKGROUND_IM="marioworld.gif";
+	String PLAYER_IM="mariosprite.png";
+
+}

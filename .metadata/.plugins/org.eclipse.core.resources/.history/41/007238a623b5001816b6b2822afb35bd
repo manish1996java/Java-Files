@@ -1,0 +1,8 @@
+package com.bmpl.testengin.utils;
+
+public interface SQLConstant {
+	
+	String LOGIN_SQL="Select * from user_mst;";
+
+	
+}

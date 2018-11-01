@@ -1,0 +1,31 @@
+package com.brainmentors.Testengin.user.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class UserDAO {
+	public static void main(String args[])
+	{
+		Connection con=null;
+		try {
+			Class.forName("org.postgresql.Driver");
+			System.out.println("Driver is loaded");
+		
+		
+			con=DriverManager.getConnection("jdbc:postgresql://localhost:5432/testengin","postgres","manish");
+			System.out.println("Connection establised");
+		
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+
+}

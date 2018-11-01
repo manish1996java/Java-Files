@@ -1,0 +1,66 @@
+package com.bmpl.test.user.view;
+
+import java.util.ArrayList;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import com.bmpl.test.user.UserDTO.RightDTO;
+import com.bmpl.test.user.UserDTO.UserDTO;
+import javax.swing.JMenuItem;
+
+public class Dashboard extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					Dashboard frame = new Dashboard();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
+
+	/**
+	 * Create the frame.
+	 */
+	
+	
+	private void createMenu(ArrayList<RightDTO> right , String rolename)
+	{
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		 
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+//		for(RightDTO rights: right) {
+//		JMenuItem item = new JMenuItem(rights);
+//		}
+		
+		
+		
+	}
+	
+	public Dashboard(UserDTO userDTO) {
+		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		createMenu(userDTO.getRights(), userDTO.getRolename());
+		
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+	}
+}

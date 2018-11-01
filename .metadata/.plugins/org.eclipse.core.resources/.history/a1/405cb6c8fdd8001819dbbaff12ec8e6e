@@ -1,0 +1,229 @@
+package com.bmpl.test.user.view;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import com.bmpl.test.user.userDAO.UserDAO;
+
+public class SignupView extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField name;
+	private JTextField usrid;
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
+	private JTextField phone;
+	private String role;
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					SignupView frame = new SignupView();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	
+	private void reset() {
+		name.setText("");
+		usrid.setText("");
+		passwordField.setText("");;
+		passwordField_1.setText("");;
+		phone.setText("");
+//		rdbtnNewRadioButton.setSelected(false);
+//		rdbtnNewRadioButton_1.setSelected(false);
+//		bg.setSelected(bg.getSelection(), false);
+		bg.clearSelection();
+	}
+	
+	
+	
+	private boolean checkConfPass()
+	{
+		return passwordField.equals(passwordField_1);
+	}
+	
+	private void cheakConfpassMatch() {
+		if(checkConfPass()==true)
+		{
+			System.out.println("password match");
+			checkRegister();
+		}
+		else {
+			
+			passwordField_1.setText("");
+			JOptionPane.showMessageDialog(this, "re-Enter confirm passsword", "TestEngin", JOptionPane.INFORMATION_MESSAGE);
+		}
+	}
+	
+	private void checkRegister()
+	{
+		String uname = name.getText();
+		String userid = usrid.getText();
+		String password = new String(passwordField.getPassword());
+		
+		UserDAO userDAO = new UserDAO();
+		try {
+			userDAO.doRegister(uname, userid, password, role);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
+	
+	
+	ButtonGroup bg = new ButtonGroup();
+	
+	JRadioButton rdbtnNewRadioButton = new JRadioButton("Teacher");
+	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Student");
+	
+	
+	/**
+	 * Create the frame.
+	 */
+	public SignupView() {
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 484, 495);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JButton btnNewButton = new JButton("SignUp");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cheakConfpassMatch();
+			}
+		});
+		
+		btnNewButton.setBounds(10, 403, 89, 23);
+		contentPane.add(btnNewButton);
+		
+		JButton btnSignup = new JButton("SignIn");
+		btnSignup.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				LoginView loginview = new LoginView();
+				loginview.setVisible(true);
+			}
+		});
+		btnSignup.setBounds(112, 403, 89, 23);
+		contentPane.add(btnSignup);
+		
+		JButton btnReset = new JButton("Reset");
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reset();
+			}
+		});
+		btnReset.setBounds(347, 403, 89, 23);
+		contentPane.add(btnReset);
+		
+		JLabel lblNewLabel = new JLabel("Name");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblNewLabel.setBounds(23, 73, 62, 23);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblUserid = new JLabel("UserId");
+		lblUserid.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblUserid.setBounds(23, 118, 89, 23);
+		contentPane.add(lblUserid);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblPassword.setBounds(23, 168, 89, 23);
+		contentPane.add(lblPassword);
+		
+		JLabel lblConfpassword = new JLabel("conf-Password");
+		lblConfpassword.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblConfpassword.setBounds(23, 214, 103, 23);
+		contentPane.add(lblConfpassword);
+		
+		JLabel lblRole = new JLabel("Role");
+		lblRole.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblRole.setBounds(23, 259, 89, 23);
+		contentPane.add(lblRole);
+		
+		JLabel lblPhone = new JLabel("Phone");
+		lblPhone.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 16));
+		lblPhone.setBounds(23, 310, 89, 23);
+		contentPane.add(lblPhone);
+		
+		JLabel lblSignup = new JLabel("SignUp-View");
+		lblSignup.setFont(new Font("Times New Roman", Font.BOLD | Font.ITALIC, 19));
+		lblSignup.setBounds(169, 22, 143, 23);
+		contentPane.add(lblSignup);
+		
+		name = new JTextField();
+		name.setBounds(169, 76, 239, 20);
+		contentPane.add(name);
+		name.setColumns(10);
+		
+		usrid = new JTextField();
+		usrid.setColumns(10);
+		usrid.setBounds(169, 121, 239, 20);
+		contentPane.add(usrid);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(169, 171, 239, 20);
+		contentPane.add(passwordField);
+		
+		passwordField_1 = new JPasswordField();
+		passwordField_1.setBounds(169, 217, 239, 20);
+		contentPane.add(passwordField_1);
+		
+		
+		
+		
+		rdbtnNewRadioButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				role = rdbtnNewRadioButton.getText();
+				System.out.println(role);
+			}
+		});
+		rdbtnNewRadioButton.setBounds(96, 261, 71, 23);
+		contentPane.add(rdbtnNewRadioButton);
+		bg.add(rdbtnNewRadioButton);
+		
+		phone = new JTextField();
+		phone.setBounds(169, 310, 239, 20);
+		contentPane.add(phone);
+		phone.setColumns(10);
+		
+		
+		
+		rdbtnNewRadioButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				role = rdbtnNewRadioButton_1.getText();
+			}
+		});
+		rdbtnNewRadioButton_1.setBounds(169, 261, 71, 23);
+		contentPane.add(rdbtnNewRadioButton_1);
+		bg.add(rdbtnNewRadioButton_1);
+	}
+}

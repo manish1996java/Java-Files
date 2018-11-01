@@ -1,0 +1,18 @@
+import java.awt.Color;
+
+enum CoffeeSize{
+	BIG,HUGE,OVERWHELMING
+}
+
+class Coffee{
+	CoffeeSize size;
+}
+
+public class CoffeeTest {
+	public static void main(String... args)
+	{
+		Coffee drink = new Coffee();
+		drink.size = CoffeeSize.BIG;
+		System.out.println(drink.size);
+	}
+}

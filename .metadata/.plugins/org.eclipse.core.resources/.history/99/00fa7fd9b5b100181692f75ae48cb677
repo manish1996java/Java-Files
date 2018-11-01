@@ -1,0 +1,45 @@
+package com.brainmentors.Testengin.user.dao;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+
+public class User3DAO {
+
+	public static void main(String[] args) {
+		Connection con= null;
+		PreparedStatement ps=null;
+		ResultSet rs=null;
+		
+		try {
+			
+			ResourceBundle rb = ResourceBundle.getBundle("config");
+			Class.forName("org.postgresql.Driver");
+			System.out.println("Driver Loaded");
+			
+			con= DriverManager.getConnection("jdbc:postgresql://localhost:5432/testengin", "postgres", "manish");
+			if(con!=null)
+			{
+				System.out.println("Connection Established");
+			}
+			
+			ps=con.prepareStatement("select * from test;");
+			rs=ps.executeQuery();
+			
+			System.out.println("Userid :"+rs.getString("name")+"Password"+rs.getString("password"));
+			
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

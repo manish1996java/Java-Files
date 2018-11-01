@@ -1,0 +1,57 @@
+
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
+public class Enemy extends Sprite implements GameConstant{
+
+	
+	
+	
+	public Enemy() {
+		x=G_WIDTH-600;
+		y=G_HEIGHT-1200;
+	    w=64;
+	    h=134;
+	        
+	}
+	public Enemy(int x,int y,int speed)
+	{
+		this.x=x;
+		this.y=y;
+		w=64;
+		h=134;
+		this.speed=speed;
+		
+	}
+	
+//	public void direction() {
+//		speed=5;
+//	}
+//	
+	public void move() {
+		speed=5;
+		y+=speed;
+	}
+	
+
+	
+	public void truckEnemy(Graphics g)
+	{
+		BufferedImage enemyimage=image.getSubimage(349,949,411-349,1084-946);
+		g.drawImage(enemyimage, x, y, w, h,null);
+	}
+	
+	public void enemyImage(Graphics g) {
+		BufferedImage subImage=image.getSubimage(607,944,680-607,1077-944);
+		g.drawImage(subImage,x,y,w,h,null);
+	}
+  	
+	
+  	
+  	public void drawEnemy(Graphics g) {
+             enemyImage(g);  		
+  	}
+}

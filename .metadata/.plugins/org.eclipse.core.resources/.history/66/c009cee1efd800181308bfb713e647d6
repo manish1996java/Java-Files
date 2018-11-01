@@ -1,0 +1,105 @@
+package com.bmpl.test.user.userDAO;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
+import com.bmpl.test.user.CommonDAO.CommonDAO;
+import com.bmpl.test.user.UserDTO.RightDTO;
+import com.bmpl.test.user.UserDTO.UserDTO;
+import com.bmpl.test.utils.SQLConstants;
+
+public class UserDAO {
+	private Logger logger = Logger.getLogger(UserDAO.class);
+	
+	
+	public UserDTO doLogin(String userid,String password) throws SQLException, ClassNotFoundException
+	{
+		
+		logger.debug("Start doLogin with -->"+userid);
+		
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		UserDTO userDTO = null;
+		ArrayList<RightDTO> right = new ArrayList<>();
+		String msg = "Invalid user Password";
+		
+		
+		try {
+			con = CommonDAO.getConnection();
+			ps = con.prepareStatement(SQLConstants.LOGIN_QUARY);
+			ps.setString(1, userid);
+			ps.setString(2, password);
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+//				msg = "Login successfully"+userid;
+				if(userDTO == null) {
+					userDTO = new UserDTO();
+					userDTO.setUserid(rs.getString("userid"));
+					userDTO.setPassword(rs.getString("password"));
+					userDTO.setRolename(rs.getString("name"));
+					userDTO.setRights(right);
+					System.out.println("oo");
+				}
+				
+				System.out.println("kk");
+				right.add(new RightDTO(rs.getString("rightname"), rs.getString("screen")));
+			}
+			
+			
+		}finally{
+			if(rs != null){
+				rs.close();
+			}
+			if(ps != null) {
+				ps.close();
+			}
+			if(con != null) {
+				con.close();
+			}
+			
+		}
+		
+	return userDTO;
+	}
+	
+	
+	
+	public void doRegister(String name, String userid , String password , String rolename ) throws ClassNotFoundException, SQLException {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+	
+		try {
+		con = CommonDAO.getConnection();
+		
+		}
+		finally {
+			if(rs!=null)
+			{
+				rs.close();
+			}
+			if(ps!=null)
+			{
+				ps.close();
+			}
+			if(con!=null)
+			{
+				con.close();
+			}
+		}
+		
+		
+	}
+	
+	
+	
+	
+
+}

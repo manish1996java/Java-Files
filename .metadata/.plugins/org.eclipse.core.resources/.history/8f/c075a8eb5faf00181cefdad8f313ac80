@@ -1,0 +1,131 @@
+
+
+
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.Timer;
+
+public class Board extends JPanel implements GameConstant {
+
+	
+	private Image image;
+	private Ryu ryu;
+	private Timer timer;
+	
+	public Board(){
+		setSize(G_WIDTH,G_HEIGHT);
+		image= new ImageIcon(Board.class.getResource(BG_IMAGE)).getImage();
+		ryu=new Ryu();
+		bindEvent();
+		gameLoop();
+		setFocusable(true);
+	}
+	
+	private void drawBackGround(Graphics g) {
+		g.drawImage(image,0,0,G_WIDTH,G_HEIGHT,null);
+	}
+	
+	private void gameLoop() {
+		ActionListener l=new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				repaint();
+				ryu.move();
+				ryu.fall();
+				
+			}
+		};
+		timer =new Timer(DELAY,l);
+		timer.start();
+	}
+	
+	public void bindEvent() {
+		KeyListener l=new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getKeyCode()==KeyEvent.VK_LEFT) {
+					ryu.setState(4);
+					ryu.direction(-1);
+					
+				}
+				
+				if(e.getKeyCode()==KeyEvent.VK_RIGHT) {
+					ryu.setState(3);
+					ryu.direction(1);
+					
+				}
+				
+				if(e.getKeyCode()==KeyEvent.VK_SPACE) {
+					ryu.setState(2);
+					ryu.jump();
+				}
+				
+				
+				if(e.getKeyCode()==KeyEvent.VK_X) {
+			
+					ryu.setState(5);
+					ryu.jump();
+					
+				}
+				if(e.getKeyCode()==KeyEvent.VK_Z) {
+					ryu.setState(6);
+					
+				}
+				if(e.getKeyCode()==KeyEvent.VK_S) {
+					ryu.setState(7);
+					
+				}
+				if(e.getKeyCode()==KeyEvent.VK_A) {
+					ryu.setState(8);
+					
+				}
+				if(e.getKeyCode()==KeyEvent.VK_C) {
+					ryu.setState(9);
+					
+				}
+				if(e.getKeyCode()==KeyEvent.VK_Q) {
+					ryu.setState(10);
+					ryu.jump();
+					
+				}
+
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+                   ryu.setState(1);				
+			       ryu.direction(0);	
+			}
+			
+		};
+		this.addKeyListener(l);
+	}	
+	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		drawBackGround(g);	
+		ryu.drawRyu(g);
+		ryu.powerBoard(g);
+		ryu.power(g);
+	}
+	
+	
+}

@@ -1,0 +1,18 @@
+package practice;
+
+public class Connection {
+
+	public static void main(String[] args) {
+		
+		
+		try {
+			Class.forName("com.postgresql.Driver");
+			System.out.println("Driver Loaded");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}
